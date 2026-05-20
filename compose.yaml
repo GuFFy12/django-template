@@ -41,7 +41,7 @@ services:
     restart: unless-stopped
 
   nginx:
-    image: nginx:1.31.0-trixie
+    image: nginx:1.31.0-trixie@sha256:800e7c98538c6bf725f5177e841aa720ae0ed1c378bbea368b6330bfe18a36b3
     depends_on:
       - app
     volumes:
@@ -61,7 +61,7 @@ services:
       - traefik.http.services.${ROUTER_NAME}.loadbalancer.server.port=80
 
   postgres:
-    image: postgres:18.4-trixie
+    image: postgres:18.4-trixie@sha256:7aba8c66107ee218ddbaacb30eae46d774bf5e34ab77a917be819b4e227493c4
     volumes:
       - database:/var/lib/postgresql
     environment:
@@ -71,7 +71,7 @@ services:
     restart: unless-stopped
 
   valkey:
-    image: valkey/valkey:9.1.0-trixie
+    image: valkey/valkey:9.1.0-trixie@sha256:4963247afc4cd33c7d3b2d2816b9f7f8eeebab148d29056c2ca4d7cbc966f2d9
     restart: unless-stopped
 
 networks:

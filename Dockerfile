@@ -1,6 +1,6 @@
 ARG VERSION="unknown"
 
-FROM node:24.14-slim AS node-builder
+FROM node:24.14-slim@sha256:b506e7321f176aae77317f99d67a24b272c1f09f1d10f1761f2773447d8da26c AS node-builder
 WORKDIR /app
 RUN --mount=type=cache,target=/root/.npm/,sharing=locked \
     --mount=type=bind,source=package-lock.json,target=package-lock.json \
