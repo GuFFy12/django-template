@@ -1,0 +1,67 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Run",
+      "type": "shell",
+      "command": "uv run python manage.py runserver_plus --nopin",
+      "problemMatcher": []
+    },
+    {
+      "label": "Run post-create script",
+      "type": "shell",
+      "command": ".devcontainer/post-create.sh",
+      "problemMatcher": []
+    },
+    {
+      "label": "Run pre-commit for all files",
+      "type": "shell",
+      "command": "uv run lefthook run pre-commit --all-files",
+      "problemMatcher": []
+    },
+    {
+      "label": "Run mypy for all files",
+      "type": "shell",
+      "command": "uv run mypy .",
+      "problemMatcher": []
+    },
+    {
+      "label": "Secrets: Update & Audit",
+      "type": "shell",
+      "command": "uv run detect-secrets scan --baseline .secrets.baseline && uv run detect-secrets audit .secrets.baseline",
+      "presentation": { "focus": true },
+      "problemMatcher": []
+    },
+    {
+      "label": "Update from template",
+      "type": "shell",
+      "command": "uv run copier update",
+      "presentation": { "focus": true },
+      "problemMatcher": []
+    },
+    {
+      "label": "Make Migrations",
+      "type": "shell",
+      "command": "uv run python manage.py makemigrations",
+      "problemMatcher": []
+    },
+    {
+      "label": "Migrate",
+      "type": "shell",
+      "command": "uv run python manage.py migrate",
+      "problemMatcher": []
+    },
+    {
+      "label": "Django Shell",
+      "type": "shell",
+      "command": "uv run python manage.py shell_plus",
+      "problemMatcher": []
+    },
+    {
+      "label": "Flush Database",
+      "type": "shell",
+      "command": "uv run python manage.py flush",
+      "problemMatcher": []
+    }
+  ]
+}

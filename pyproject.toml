@@ -1,0 +1,101 @@
+[project]
+name = "django-template"
+version = "0.1.0"
+description = "Django Template"
+readme = "README.md"
+requires-python = ">=3.13"
+license = "MIT"
+classifiers = [
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3",
+]
+dependencies = [
+  "django~=5.2.14",
+  "django-compressor>=4.6.0",
+  "django-debug-toolbar>=6.3.0",
+  "django-environ>=0.13.0",
+  "django-extensions>=4.1",
+  "django-libsass>=0.9",
+  "django-redis>=6.0.0",
+  "granian>=2.7.4",
+  "psycopg[binary,pool]>=3.3.4",
+]
+
+[dependency-groups]
+dev = [
+  "copier>=9.15.0",
+  "detect-secrets>=1.5.0",
+  "django-stubs[compatible-mypy]>=6.0.4",
+  "dprint-py>=0.53.1.0",
+  "lefthook>=2.1.6",
+  "mypy>=1.20.0",
+  "pre-commit>=4.6.0",
+  "pyright>=1.1.408",
+  "pytest>=9.0.3",
+  "pytest-cov>=7.1.0",
+  "pytest-env>=1.6.0",
+  "ruff>=0.15.2",
+  "werkzeug>=3.1.8",
+]
+github-workflows = [
+  "pytest-github-actions-annotate-failures>=0.4.0",
+]
+
+[tool.ruff]
+target-version = "py313"
+line-length = 160
+exclude = [".venv", "*/migrations/*"]
+
+[tool.ruff.lint]
+select = [
+  "ALL",
+]
+ignore = [
+  "D", # pydocstyle
+  "TD", # flake8-todos
+  "FIX", # flake8-fixme
+  "COM812", # missing-trailing-comma
+  "RUF001", # ambiguous-unicode-character-string
+  "RUF002", # ambiguous-unicode-character-docstring
+  "RUF003", # ambiguous-unicode-character-comment
+  "ANN", # flake8-annotations
+]
+
+[tool.ruff.lint.pycodestyle]
+max-line-length = 160
+
+[tool.ruff.lint.per-file-ignores]
+"*/tests/*" = [
+  "INP001", # implicit-namespace-package
+  "S101", # assert
+]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+DJANGO_SETTINGS_MODULE = "config.settings"
+python_files = ["tests.py", "test_*.py", "*_tests.py"]
+testpaths = ["."]
+env = [
+  "DJANGO_DEBUG=False",
+]
+
+[tool.coverage.run]
+omit = [
+  "*/tests/*",
+]
+
+[tool.pyright]
+typeCheckingMode = "standard"
+reportAttributeAccessIssue = false
+reportIncompatibleVariableOverride = false
+
+[tool.mypy]
+check_untyped_defs = true
+warn_return_any = true
+disallow_any_generics = true
+ignore_missing_imports = true
+disable_error_code = ["var-annotated"]
+plugins = ["mypy_django_plugin.main"]
+
+[tool.django-stubs]
+django_settings_module = "config.settings"

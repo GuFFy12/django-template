@@ -1,0 +1,39 @@
+pre-commit:
+  fail_on_changes: always
+  jobs:
+    - name: prepare
+      group:
+        parallel: true
+        jobs:
+          - name: uv-lock
+            glob: "{pyproject.toml,uv.lock}"
+            run: uv lock
+
+          - name: legacy-pre-commit
+            run: uv run pre-commit run --files {staged_files}
+
+          - name: detect-secrets
+            run: uv run detect-secrets-hook --baseline .secrets.baseline {staged_files}
+
+    - name: formatters
+      group:
+        parallel: true
+        jobs:
+          - name: ruff
+            glob: "*.py"
+            run: >
+              uv run ruff check --fix --exit-zero {staged_files} &&
+              uv run ruff format {staged_files} &&
+              uv run ruff check --fix --extend-ignore=PLR2004 {staged_files}
+
+          - name: dprint
+            exclude: \{\{_copier_conf\.answers_file\}\}\.jinja
+            run: uv run dprint fmt {staged_files}
+
+    - name: analyzers
+      group:
+        parallel: true
+        jobs:
+          - name: mypy
+            glob: "{pyproject.toml,src/**/*.py,tests/**/*.py}"
+            run: uv run mypy .

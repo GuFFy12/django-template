@@ -1,0 +1,3 @@
+_answers_file: .copier-answers.django.yml
+_external_data:
+  base: .copier-answers.yml

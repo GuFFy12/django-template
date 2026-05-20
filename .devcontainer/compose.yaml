@@ -1,0 +1,23 @@
+services:
+  workspace:
+    build: .
+    command: sleep infinity
+    env_file: .env
+    volumes:
+      - ..:/workspace:cached
+
+  postgres:
+    image: postgres:18.4-trixie
+    restart: unless-stopped
+    network_mode: service:workspace
+    env_file: .env
+    volumes:
+      - postgres_data:/var/lib/postgresql
+
+  valkey:
+    image: valkey/valkey:9.1.0-trixie
+    restart: unless-stopped
+    network_mode: service:workspace
+
+volumes:
+  postgres_data:
