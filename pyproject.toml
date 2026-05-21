@@ -77,7 +77,8 @@ DJANGO_SETTINGS_MODULE = "config.settings"
 python_files = ["tests.py", "test_*.py", "*_tests.py"]
 testpaths = ["."]
 env = [
-  "DJANGO_DEBUG=False",
+  "DJANGO_SECRET_KEY=secret_key",
+  "POSTGRES_PASSWORD=password",
 ]
 
 [tool.coverage.run]
