@@ -40,6 +40,13 @@
       "problemMatcher": []
     },
     {
+      "label": "Update from template: Django",
+      "type": "shell",
+      "command": "uv run copier update -a .copier-answers.django.yml",
+      "presentation": { "focus": true },
+      "problemMatcher": []
+    },
+    {
       "label": "Make Migrations",
       "type": "shell",
       "command": "uv run python manage.py makemigrations",
