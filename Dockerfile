@@ -12,8 +12,8 @@ COPY --from=astral/uv:0.11.14@sha256:1025398289b62de8269e70c45b91ffa37c373f38118
 WORKDIR /app
 ENV UV_COMPILE_BYTECODE=1
 ENV UV_LINK_MODE=copy
+ENV UV_NO_SYNC=1
 ENV DJANGO_BUILD_MODE=1
-ENV PATH="/app/.venv/bin:$PATH"
 RUN --mount=type=cache,target=/root/.cache/uv \
     --mount=type=bind,source=uv.lock,target=uv.lock \
     --mount=type=bind,source=pyproject.toml,target=pyproject.toml \
@@ -26,7 +26,7 @@ RUN python manage.py collectstatic --noinput \
     && rm -r ./node_modules
 
 FROM python:3.13.12-slim-trixie@sha256:f1927c75e81efd1e091dbd64b6c0ecaa5630b38635a3d1c04034ac636e1f94c8
-RUN addgroup --system appuser && adduser --system --group appuser
+RUN addgroup --system app && add --system --group app
 WORKDIR /app
 ARG VERSION
 ENV VERSION=${VERSION}
@@ -34,6 +34,6 @@ ENV DEBUG=False
 ENV PYTHONUNBUFFERED=1
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PATH="/app/.venv/bin:$PATH"
-COPY --from=builder --chown=appuser:appuser /app /app
-USER appuser
+COPY --from=builder --chown=app:app /app /app
+USER app
 CMD ["sh", "-c", "exec granian --interface wsgi --host 0.0.0.0 --port 8000 --workers ${GRANIAN_WORKERS:-$((2 * $(nproc) + 1))} config.wsgi:application"]

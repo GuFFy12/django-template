@@ -1,6 +1,7 @@
 services:
   init:
     image: ${IMAGE_NAME}:${IMAGE_TAG}
+    user: root
     command: >
       sh -c "rm -rf /etc/nginx/* && cp -a /app/nginx/. /etc/nginx/ &&
              rm -rf /var/www/staticfiles/* && cp -a /app/staticfiles/. /var/www/staticfiles/ &&
