@@ -4,12 +4,12 @@ import environ
 
 env = environ.FileAwareEnv(
     VERSION=(str, "0.1.0"),
-    DJANGO_SECRET_KEY=(str,),
+    DJANGO_SECRET_KEY=(str, "secret_key"),
     DJANGO_DEBUG=(bool, False),
     DJANGO_ALLOWED_HOSTS=(list, ["localhost", "127.0.0.1", "172.16.0.0/12"]),
     POSTGRES_DB=(str, "app"),
     POSTGRES_USER=(str, "app"),
-    POSTGRES_PASSWORD=(str,),
+    POSTGRES_PASSWORD=(str, "password"),
     POSTGRES_HOST=(str, "localhost"),
     POSTGRES_PORT=(int, 5432),
     CACHE_URL=(str, "redis://localhost:6379/1"),

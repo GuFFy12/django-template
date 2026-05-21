@@ -43,10 +43,6 @@ jobs:
       - name: Run pre-commit
         if: success() || failure()
         run: |
-          set -a
-          source .devcontainer/.env
-          set +a
-
           echo "### pre-commit results" >> $GITHUB_STEP_SUMMARY
           echo "\`\`\`text" >> $GITHUB_STEP_SUMMARY
 
@@ -61,9 +57,6 @@ jobs:
       - name: Run pytest
         if: success() || failure()
         run: |
-          set -a
-          source .devcontainer/.env
-          set +a
           uv run pytest --junitxml=results.xml || [[ $? -eq 5 ]]
 
       - name: Pytest Test Summary
