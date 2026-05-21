@@ -1,6 +1,6 @@
 ARG VERSION="unknown"
 
-FROM node:24.15.0-trixie-slim@sha256:291be77873bc04731968cacf82f0fcef17cee8cf200c6b6951e2bcab41560eb7 AS node-builder
+FROM node:24.16.0-trixie-slim@sha256:05c08ce4291e9a58f59456a7985176defb12cdd42271f35ff81a3e167ea61d4c AS node-builder
 WORKDIR /app
 RUN --mount=type=cache,target=/root/.npm/,sharing=locked \
     --mount=type=bind,source=package-lock.json,target=package-lock.json \
