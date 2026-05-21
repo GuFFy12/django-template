@@ -43,6 +43,10 @@ jobs:
       - name: Run pre-commit
         if: success() || failure()
         run: |
+          set -a
+          source .devcontainer/.env
+          set +a
+
           echo "### pre-commit results" >> $GITHUB_STEP_SUMMARY
           echo "\`\`\`text" >> $GITHUB_STEP_SUMMARY
 
@@ -56,7 +60,11 @@ jobs:
 
       - name: Run pytest
         if: success() || failure()
-        run: uv run pytest --junitxml=results.xml
+        run: |
+          set -a
+          source .devcontainer/.env
+          set +a
+          uv run pytest --junitxml=results.xml
 
       - name: Pytest Test Summary
         uses: test-summary/action@37b508cfee6d4d080eedd00b5bb240a6a784a6a5 # v2

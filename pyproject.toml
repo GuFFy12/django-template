@@ -34,7 +34,6 @@ dev = [
   "pytest>=9.0.3",
   "pytest-cov>=7.1.0",
   "pytest-django>=4.12.0",
-  "pytest-env>=1.6.0",
   "ruff>=0.15.2",
   "werkzeug>=3.1.8",
 ]
@@ -76,10 +75,6 @@ pythonpath = ["."]
 DJANGO_SETTINGS_MODULE = "config.settings"
 python_files = ["tests.py", "test_*.py", "*_tests.py"]
 testpaths = ["."]
-env = [
-  "DJANGO_SECRET_KEY=secret_key",
-  "POSTGRES_PASSWORD=password",
-]
 
 [tool.coverage.run]
 omit = [
