@@ -1,5 +1,5 @@
 {
-  "name": "python-template",
+  "name": "django-template",
   "dockerComposeFile": ["compose.yaml"],
   "service": "workspace",
   "workspaceFolder": "/workspace",
