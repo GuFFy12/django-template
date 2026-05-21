@@ -430,6 +430,7 @@ dev = [
     { name = "copier" },
     { name = "detect-secrets" },
     { name = "django-stubs", extra = ["compatible-mypy"] },
+    { name = "djangofmt" },
     { name = "dprint-py" },
     { name = "lefthook" },
     { name = "mypy" },
@@ -463,6 +464,7 @@ dev = [
     { name = "copier", specifier = ">=9.15.0" },
     { name = "detect-secrets", specifier = ">=1.5.0" },
     { name = "django-stubs", extras = ["compatible-mypy"], specifier = ">=6.0.4" },
+    { name = "djangofmt", specifier = ">=0.2.8" },
     { name = "dprint-py", specifier = ">=0.53.1.0" },
     { name = "lefthook", specifier = ">=2.1.6" },
     { name = "mypy", specifier = ">=1.20.0" },
@@ -475,6 +477,31 @@ dev = [
     { name = "werkzeug", specifier = ">=3.1.8" },
 ]
 github-workflows = [{ name = "pytest-github-actions-annotate-failures", specifier = ">=0.4.0" }]
+
+[[package]]
+name = "djangofmt"
+version = "0.2.8"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/eb/2b/ceb608e66ccf9fb22f085b9897e39019e1dbec5512eb66c39eb611999060/djangofmt-0.2.8.tar.gz", hash = "sha256:3a744f643385776d2071d0d29fb9398a28bd7a4fa294dbd24e323904db707416", size = 66437, upload-time = "2026-05-18T12:21:03.69Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/f3/af/c811de7a2a4fb6cd0d462354f6d6930697ba3e7963a46ff6adb3327d3fdc/djangofmt-0.2.8-py3-none-linux_armv6l.whl", hash = "sha256:3eaa2e492020e4c694ce40652a9b90ae9f4f894320b2a4ca3afcdc7277654b5b", size = 2294875, upload-time = "2026-05-18T12:21:01.171Z" },
+    { url = "https://files.pythonhosted.org/packages/ce/4f/83e19bf8bf002efbfeef55060098cb3da101ef642c1a1e8933691ac836ee/djangofmt-0.2.8-py3-none-macosx_10_12_x86_64.whl", hash = "sha256:951430051e78c164017a77279443add499cc50a854ed3af4c193dc972cdce9fa", size = 2428570, upload-time = "2026-05-18T12:21:09.712Z" },
+    { url = "https://files.pythonhosted.org/packages/a2/ba/92044599726748ed2dd7867df97431740f48cf32f0d2b2003276c5f4815d/djangofmt-0.2.8-py3-none-macosx_11_0_arm64.whl", hash = "sha256:3e55f720dfc611f311396e2aed5fec927ea0876d480f8d81e650f288ed211407", size = 2281367, upload-time = "2026-05-18T12:21:08.431Z" },
+    { url = "https://files.pythonhosted.org/packages/72/62/de58155d90a6c3c80e68ce04d4b45d986fe75f4397e1a54c0a5164c3cac4/djangofmt-0.2.8-py3-none-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:474d01c15e2ac49bd967bb7c612c26baa0b6c0282bc1a7e319224b597102c7a9", size = 2487984, upload-time = "2026-05-18T12:21:05.787Z" },
+    { url = "https://files.pythonhosted.org/packages/ec/de/f3f0f22ad5e8082d5473488fb8b3fd6abffb0207b2e50cf4b4af1892ac7a/djangofmt-0.2.8-py3-none-manylinux_2_17_armv7l.manylinux2014_armv7l.whl", hash = "sha256:74831e0fb90a63c6939ad6c39d19728026879168b0a208f7989d4864a5a3155f", size = 2219246, upload-time = "2026-05-18T12:20:59.826Z" },
+    { url = "https://files.pythonhosted.org/packages/dc/57/e69c7688d24c2443507dca9ad54117b88911c8b9c7d1a91dc0e7c0a8ea68/djangofmt-0.2.8-py3-none-manylinux_2_17_i686.manylinux2014_i686.whl", hash = "sha256:2dc0efab691e3015a53dbf3cc9028c6e3c16bb281c57347a97e8c5860ce1b147", size = 2584915, upload-time = "2026-05-18T12:21:11.395Z" },
+    { url = "https://files.pythonhosted.org/packages/ee/4a/de8c5b47efb407735bbee0b93f4431fe682fc9c9d16818ff8a6c147b95ab/djangofmt-0.2.8-py3-none-manylinux_2_17_ppc64le.manylinux2014_ppc64le.whl", hash = "sha256:9b3492fbdc38a7891ace69c0e1538c6d47d70b567ff111039749da0bbfd0a8fe", size = 2863733, upload-time = "2026-05-18T12:20:58.543Z" },
+    { url = "https://files.pythonhosted.org/packages/46/48/07704291717781ae909c13af4378c97cc58a2c31aac63799beafea279032/djangofmt-0.2.8-py3-none-manylinux_2_17_s390x.manylinux2014_s390x.whl", hash = "sha256:150d69af90b19a328c3c707cb9bd0da2100da50f17076238f4716d5dd95e1672", size = 2577610, upload-time = "2026-05-18T12:21:02.438Z" },
+    { url = "https://files.pythonhosted.org/packages/d6/be/3c2d9c314837f97663b8b0abce25dda596ef3a33c84bd53bb82824a5981c/djangofmt-0.2.8-py3-none-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:e1c4c2465006bf7b0eebfd0ce8c9d593b9cd0afd46343fd901365f6ff12c324c", size = 2655787, upload-time = "2026-05-18T12:21:07.113Z" },
+    { url = "https://files.pythonhosted.org/packages/e1/a3/f3bfe662c17753eb9d577e241866e76e54611305f143a3c0d211f8d2ab28/djangofmt-0.2.8-py3-none-manylinux_2_31_riscv64.whl", hash = "sha256:617342a1b812874a71c3c09ebe6997ee19f18c7bc52d61964f0bd0216026e303", size = 2607214, upload-time = "2026-05-18T12:20:55.433Z" },
+    { url = "https://files.pythonhosted.org/packages/ab/1b/290fa31086d7f1770e875ef18e8b8bf6b1ad57a1c2a245e7a4ecb237ff56/djangofmt-0.2.8-py3-none-musllinux_1_2_aarch64.whl", hash = "sha256:3ff3f6ae393a2be3518f49c86d911a16e17cc44ff9d989f481a6f08fa2b9ed61", size = 2542716, upload-time = "2026-05-18T12:21:04.603Z" },
+    { url = "https://files.pythonhosted.org/packages/8a/ce/edb922292564837c11ab5ea5eab4a0a0c925bf30ed93d1b88bd933d83a61/djangofmt-0.2.8-py3-none-musllinux_1_2_armv7l.whl", hash = "sha256:19905763ff96abd100e7cc3d63734cb144d0b2762bca989869e25a621a07c3fd", size = 2248124, upload-time = "2026-05-18T12:20:51.611Z" },
+    { url = "https://files.pythonhosted.org/packages/8b/00/e74d1625e4f9efdc902ae0f1cbc25798c195848dad8858986e34ec57a82f/djangofmt-0.2.8-py3-none-musllinux_1_2_i686.whl", hash = "sha256:2bd8697b9ef502da01b41a432e26cc83a416b51ae5779355a181b10ecd3ef62e", size = 2507080, upload-time = "2026-05-18T12:21:13.024Z" },
+    { url = "https://files.pythonhosted.org/packages/00/8a/06da8becb426954d1f2d164c23b78d71677723cc4d8626e5190b42edb488/djangofmt-0.2.8-py3-none-musllinux_1_2_x86_64.whl", hash = "sha256:8d6fffb7bf0aee3735a36ceb97db031ba9adb4188e511a0e4e79ca05f80a1f93", size = 2730950, upload-time = "2026-05-18T12:20:52.883Z" },
+    { url = "https://files.pythonhosted.org/packages/0d/1a/251984171e4002204201f40345a522499180f1a9d006fcedb26f31a1df17/djangofmt-0.2.8-py3-none-win32.whl", hash = "sha256:59c7d7664abcad549350cec3d20709b058ba639dfeaaebb5e1ef6f01ffe469a0", size = 2127053, upload-time = "2026-05-18T12:20:54.073Z" },
+    { url = "https://files.pythonhosted.org/packages/50/e5/103e5d90e104acf1ea06da753944267db38959dc0804517e0b9041847634/djangofmt-0.2.8-py3-none-win_amd64.whl", hash = "sha256:65a814293e3582e723027eacb14e9810f21148469bbcdf7bbe5c993a6e81a179", size = 2411430, upload-time = "2026-05-18T12:21:14.245Z" },
+    { url = "https://files.pythonhosted.org/packages/5f/d9/9b2553cf3d31992f15f0518720381041a6ffd90e8d7d57c3078f2e320d58/djangofmt-0.2.8-py3-none-win_arm64.whl", hash = "sha256:015f59af1786e9c9174cd22038e9bb94e97b481e8b4a95c37d41173c6a9dd49b", size = 2258294, upload-time = "2026-05-18T12:20:57.337Z" },
+]
 
 [[package]]
 name = "dprint-py"

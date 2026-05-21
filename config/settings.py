@@ -12,7 +12,8 @@ env = environ.FileAwareEnv(
     POSTGRES_PASSWORD=(str, "password"),
     POSTGRES_HOST=(str, "localhost"),
     POSTGRES_PORT=(int, 5432),
-    CACHE_URL=(str, "redis://localhost:6379/1"),
+    CACHE_URL=(str, "redis://localhost:6379/0"),
+    DJANGO_BUILD_MODE=(bool, False),
 )
 
 
@@ -97,9 +98,16 @@ DATABASES = {
     },
 }
 
-CACHES = {
-    "default": env.cache(backend="django.core.cache.backends.redis.RedisCache"),
-}
+if env.bool("DJANGO_BUILD_MODE"):
+    CACHES = {
+        "default": {
+            "BACKEND": "django.core.cache.backends.dummy.DummyCache",
+        }
+    }
+else:
+    CACHES = {
+        "default": env.cache(backend="django.core.cache.backends.redis.RedisCache"),
+    }
 
 STORAGES = {
     "default": {

@@ -12,14 +12,16 @@ COPY --from=astral/uv:0.11.14@sha256:1025398289b62de8269e70c45b91ffa37c373f38118
 WORKDIR /app
 ENV UV_COMPILE_BYTECODE=1
 ENV UV_LINK_MODE=copy
+ENV DJANGO_BUILD_MODE=1
+ENV PATH="/app/.venv/bin:$PATH"
 RUN --mount=type=cache,target=/root/.cache/uv \
     --mount=type=bind,source=uv.lock,target=uv.lock \
     --mount=type=bind,source=pyproject.toml,target=pyproject.toml \
     uv sync --frozen --no-dev --no-editable --no-install-project
 COPY . .
 COPY --from=node-builder /app/node_modules ./node_modules
-RUN uv run python manage.py collectstatic --noinput \
-    && uv run python manage.py compress --force \
+RUN python manage.py collectstatic --noinput \
+    && python manage.py compress --force \
     && rm -r ./static \
     && rm -r ./node_modules
 
