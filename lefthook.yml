@@ -19,11 +19,3 @@ pre-commit:
           - name: djangofmt
             glob: "*.html"
             run: uv run djangofmt {staged_files}
-
-    - name: analyzers
-      group:
-        parallel: true
-        jobs:
-          - name: mypy
-            glob: "{pyproject.toml,src/**/*.py,tests/**/*.py}"
-            run: uv run mypy .

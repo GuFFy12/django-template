@@ -1,14 +1,6 @@
 services:
-  init:
+  app:
     image: ${IMAGE_NAME}:${IMAGE_TAG}
-    user: root
-    command: >
-      sh -c "rm -rf /etc/nginx/* && cp -a /app/nginx/. /etc/nginx/ &&
-             rm -rf /var/www/staticfiles/* && cp -a /app/staticfiles/. /var/www/staticfiles/ &&
-             python manage.py migrate --noinput"
-    volumes:
-      - nginx_config:/etc/nginx
-      - staticfiles:/var/www/staticfiles
     depends_on:
       - postgres
     environment:
@@ -19,47 +11,10 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_HOST: postgres
       POSTGRES_PORT: 5432
-      CACHE_URL: redis://redis:6379/0
-
-  app:
-    image: ${IMAGE_NAME}:${IMAGE_TAG}
-    depends_on:
-      init:
-        condition: service_completed_successfully
-      postgres:
-        condition: service_started
-    volumes:
-      - media:/app/media
-    environment:
-      DJANGO_SECRET_KEY: ${DJANGO_SECRET_KEY}
-      DJANGO_ALLOWED_HOSTS: localhost,127.0.0.1,172.16.0.0/12,${DJANGO_DOMAIN}
-      POSTGRES_DB: django
-      POSTGRES_USER: django
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_HOST: postgres
-      POSTGRES_PORT: 5432
       CACHE_URL: redis://valkey:6379/0
+      GRANIAN_WORKERS: ${GRANIAN_WORKERS:-2}
+      GRANIAN_RESPAWN_FAILED_WORKERS: true
     restart: unless-stopped
-
-  nginx:
-    image: nginx:1.31.0-trixie@sha256:800e7c98538c6bf725f5177e841aa720ae0ed1c378bbea368b6330bfe18a36b3
-    depends_on:
-      - app
-    volumes:
-      - nginx_config:/etc/nginx:ro
-      - staticfiles:/var/www/staticfiles:ro
-      - media:/var/www/media:ro
-    networks:
-      - default
-      - traefik_network
-    restart: unless-stopped
-    labels:
-      - traefik.enable=true
-      - traefik.http.routers.${ROUTER_NAME}.rule=Host(`${DJANGO_DOMAIN}`)
-      - traefik.http.routers.${ROUTER_NAME}.middlewares=default-chain@docker
-      - traefik.http.routers.${ROUTER_NAME}.entrypoints=websecure
-      - traefik.http.routers.${ROUTER_NAME}.service=${ROUTER_NAME}
-      - traefik.http.services.${ROUTER_NAME}.loadbalancer.server.port=80
 
   postgres:
     image: postgres:18.4-trixie@sha256:7aba8c66107ee218ddbaacb30eae46d774bf5e34ab77a917be819b4e227493c4
@@ -75,14 +30,5 @@ services:
     image: valkey/valkey:9.1.0-trixie@sha256:4963247afc4cd33c7d3b2d2816b9f7f8eeebab148d29056c2ca4d7cbc966f2d9
     restart: unless-stopped
 
-networks:
-  traefik_network:
-    external: true
-  grafana-alloy_network:
-    external: true
-
 volumes:
-  nginx_config:
   database:
-  staticfiles:
-  media:

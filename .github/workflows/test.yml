@@ -48,7 +48,6 @@ jobs:
 
       - name: Run pytest
         if: success() || failure()
-        # TODO: Write example app and tests, then remove || [[ $? -eq 5 ]] part
         run: uv run pytest --junitxml=results.xml || [[ $? -eq 5 ]]
 
       - name: Pytest Test Summary

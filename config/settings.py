@@ -13,7 +13,6 @@ env = environ.FileAwareEnv(
     POSTGRES_HOST=(str, "localhost"),
     POSTGRES_PORT=(int, 5432),
     CACHE_URL=(str, "redis://localhost:6379/0"),
-    DJANGO_BUILD_MODE=(bool, False),
 )
 
 
@@ -34,8 +33,6 @@ CSRF_COOKIE_SECURE = not DEBUG
 
 SESSION_COOKIE_SECURE = not DEBUG
 
-SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
-
 DEBUG_TOOLBAR_CONFIG = {
     "SHOW_TOOLBAR_CALLBACK": lambda _: DEBUG,
 }
@@ -48,7 +45,6 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "compressor",
     "django_extensions",
 ]
 
@@ -98,16 +94,9 @@ DATABASES = {
     },
 }
 
-if env.bool("DJANGO_BUILD_MODE"):
-    CACHES = {
-        "default": {
-            "BACKEND": "django.core.cache.backends.dummy.DummyCache",
-        }
-    }
-else:
-    CACHES = {
-        "default": env.cache(backend="django.core.cache.backends.redis.RedisCache"),
-    }
+CACHES = {
+    "default": env.cache(backend="django.core.cache.backends.redis.RedisCache"),
+}
 
 STORAGES = {
     "default": {
@@ -148,21 +137,10 @@ STATIC_URL = "static/"
 
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
-NODE_MODULES_DIR = BASE_DIR / "node_modules"
-
-STATICFILES_DIRS = [
-    BASE_DIR / "static",
-    ("vendor/alpinejs", NODE_MODULES_DIR / "alpinejs" / "dist"),
-    ("vendor/htmx.org", NODE_MODULES_DIR / "htmx.org" / "dist"),
-]
-
 STATICFILES_FINDERS = [
     "django.contrib.staticfiles.finders.FileSystemFinder",
     "django.contrib.staticfiles.finders.AppDirectoriesFinder",
-    "compressor.finders.CompressorFinder",
 ]
-
-COMPRESS_PRECOMPILERS = (("text/x-scss", "django_libsass.SassCompiler"),)
 
 MEDIA_URL = "media/"
 
