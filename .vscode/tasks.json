@@ -25,37 +25,6 @@
       "command": "uv run copier update",
       "presentation": { "focus": true },
       "problemMatcher": []
-    },
-    {
-      "label": "Update from template: Django",
-      "type": "shell",
-      "command": "uv run copier update -a .copier-answers.django.yml",
-      "presentation": { "focus": true },
-      "problemMatcher": []
-    },
-    {
-      "label": "Make Migrations",
-      "type": "shell",
-      "command": "uv run python manage.py makemigrations",
-      "problemMatcher": []
-    },
-    {
-      "label": "Migrate",
-      "type": "shell",
-      "command": "uv run python manage.py migrate",
-      "problemMatcher": []
-    },
-    {
-      "label": "Django Shell",
-      "type": "shell",
-      "command": "uv run python manage.py shell_plus",
-      "problemMatcher": []
-    },
-    {
-      "label": "Flush Database",
-      "type": "shell",
-      "command": "uv run python manage.py flush",
-      "problemMatcher": []
     }
   ]
 }
