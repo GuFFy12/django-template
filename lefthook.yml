@@ -19,3 +19,15 @@ pre-commit:
           - name: djangofmt
             glob: "*.html"
             run: uv run djangofmt {staged_files}
+
+    - name: analysers
+      group:
+        parallel: true
+        jobs:
+          - name: validate-django
+            glob: "*.py"
+            run: uv run python manage.py check
+
+          - name: validate-templates
+            glob: "*.html"
+            run: uv run python manage.py validate_templates

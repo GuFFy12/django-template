@@ -1,19 +1,38 @@
 from pathlib import Path
 
 import environ
+from django.utils.csp import CSP
 
 env = environ.FileAwareEnv(
+    LOG_LEVEL=(str, "INFO"),
     VERSION=(str, "0.1.0"),
     DJANGO_SECRET_KEY=(str, "secret_key"),
     DJANGO_DEBUG=(bool, False),
     DJANGO_ALLOWED_HOSTS=(list, ["localhost", "127.0.0.1", "172.16.0.0/12"]),
-    POSTGRES_DB=(str, "app"),
-    POSTGRES_USER=(str, "app"),
-    POSTGRES_PASSWORD=(str, "password"),
-    POSTGRES_HOST=(str, "localhost"),
-    POSTGRES_PORT=(int, 5432),
+    DATABASE_URL=(str, "postgres://django:password@localhost:5432/app"),
     CACHE_URL=(str, "redis://localhost:6379/0"),
+    RQ_URL=(str, "redis://localhost:6379/1"),
+    EMAIL_URL=(str, "consolemail://"),
+    DEFAULT_FROM_EMAIL=(str, "hello@localhost"),
 )
+if not env.bool("DJANGO_DEBUG") and env.str("secret_key") == "secret_key":
+    msg = "DJANGO_SECRET_KEY must be set in debug mode"
+    raise ValueError(msg)
+
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "handlers": {
+        "console": {
+            "class": "logging.StreamHandler",
+        },
+    },
+    "root": {
+        "handlers": ["console"],
+        "level": env.str("LOG_LEVEL"),
+    },
+}
 
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -33,6 +52,19 @@ CSRF_COOKIE_SECURE = not DEBUG
 
 SESSION_COOKIE_SECURE = not DEBUG
 
+X_FRAME_OPTIONS = "SAMEORIGIN"
+
+SECURE_CSP = {
+    "default-src": [CSP.SELF],
+    "script-src": [CSP.SELF, CSP.NONCE],
+    "style-src": [CSP.SELF, CSP.UNSAFE_INLINE],
+    "img-src": [CSP.SELF, "data:"],
+    "font-src": [CSP.SELF, "data:"],
+    "frame-ancestors": [CSP.SELF],
+}
+
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+
 DEBUG_TOOLBAR_CONFIG = {
     "SHOW_TOOLBAR_CALLBACK": lambda _: DEBUG,
 }
@@ -45,7 +77,10 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "django_rq",
+    "django_tasks_rq",
     "django_extensions",
+    "users",
 ]
 
 MIDDLEWARE = [
@@ -56,6 +91,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "django.middleware.csp.ContentSecurityPolicyMiddleware",
 ]
 
 if DEBUG:
@@ -63,6 +99,8 @@ if DEBUG:
     MIDDLEWARE += ["debug_toolbar.middleware.DebugToolbarMiddleware"]
 
 ROOT_URLCONF = "config.urls"
+
+AUTH_USER_MODEL = "users.User"
 
 TEMPLATES = [
     {
@@ -75,6 +113,7 @@ TEMPLATES = [
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
                 "django.template.context_processors.static",
+                "django.template.context_processors.csp",
             ],
         },
     },
@@ -84,19 +123,26 @@ WSGI_APPLICATION = "config.wsgi.application"
 
 
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": env("POSTGRES_DB"),
-        "USER": env("POSTGRES_USER"),
-        "PASSWORD": env("POSTGRES_PASSWORD"),
-        "HOST": env("POSTGRES_HOST"),
-        "PORT": env("POSTGRES_PORT"),
-    },
+    "default": env.db("DATABASE_URL"),
 }
 
 CACHES = {
-    "default": env.cache(backend="django.core.cache.backends.redis.RedisCache"),
+    "default": env.cache("CACHE_URL"),
 }
+
+RQ_QUEUES = {
+    "default": {
+        "URL": env.str("RQ_URL"),
+        "ASYNC": not DEBUG,
+    },
+}
+
+TASKS = {"default": {"BACKEND": "django_tasks_rq.RQBackend", "QUEUES": ["default"]}}
+
+EMAIL_CONFIG = env.email("EMAIL_URL")
+vars().update(EMAIL_CONFIG)
+
+DEFAULT_FROM_EMAIL = env.str("DEFAULT_FROM_EMAIL")
 
 STORAGES = {
     "default": {
@@ -106,7 +152,6 @@ STORAGES = {
         "BACKEND": "django.contrib.staticfiles.storage.ManifestStaticFilesStorage",
     },
 }
-
 
 AUTH_PASSWORD_VALIDATORS = [
     {
