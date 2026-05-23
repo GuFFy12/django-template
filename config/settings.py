@@ -16,7 +16,7 @@ env = environ.FileAwareEnv(
     DEFAULT_FROM_EMAIL=(str, "hello@localhost"),
 )
 if not env.bool("DJANGO_DEBUG") and env.str("secret_key") == "secret_key":
-    msg = "DJANGO_SECRET_KEY must be set in debug mode"
+    msg = "DJANGO_SECRET_KEY must be set in production"
     raise ValueError(msg)
 
 

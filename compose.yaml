@@ -10,7 +10,7 @@ services:
         condition: service_healthy
     environment:
       LOG_LEVEL: INFO
-      DJANGO_SECRET_KEY: "${DJANGO_SECRET_KEY}"
+      DJANGO_SECRET_KEY: "${DJANGO_SECRET_KEY:-?DJANGO_SECRET_KEY environment variable is required}"
       DJANGO_ALLOWED_HOSTS: "localhost,127.0.0.1,172.16.0.0/12,${DJANGO_DOMAIN}"
       DATABASE_URL: "postgres://${POSTGRES_USER:-django}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-django}"
       CACHE_URL: redis://:${VALKEY_PASSWORD}@valkey:6379/0
