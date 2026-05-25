@@ -14,15 +14,9 @@ dependencies = [
   "django-crontask>=1.2.0",
   "django-environ>=0.13.0",
   "django-extensions>=4.1",
-  "django-imagekit>=6.1.0",
-  "django-import-export[all]>=4.4.1",
-  "django-private-storage>=3.1.3",
-  "django-simple-history>=3.11.0",
   "django-tasks-db>=0.12.0",
   "granian>=2.7.4",
-  "pillow>=12.2.0",
   "psycopg[binary,pool]>=3.3.4",
-  "python-slugify>=8.0.4",
   "redis>=7.4.0",
 ]
 
@@ -33,7 +27,6 @@ dev = [
   "djangofmt>=0.2.8",
   "dprint-py>=0.53.1.0",
   "lefthook>=2.1.6",
-  "pyright>=1.1.408",
   "pytest>=9.0.3",
   "pytest-cov>=7.1.0",
   "pytest-django>=4.12.0",
@@ -87,7 +80,3 @@ testpaths = ["."]
 omit = [
   "*/tests/*",
 ]
-
-[tool.pyright]
-typeCheckingMode = "standard"
-reportIncompatibleVariableOverride = false

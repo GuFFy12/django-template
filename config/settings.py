@@ -73,13 +73,9 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "django_extensions",
     "django_tasks_db",
     "crontask",
-    "private_storage",
-    "django_extensions",
-    "simple_history",
-    "import_export",
-    "shared",
     "users",
 ]
 
@@ -92,7 +88,6 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "django.middleware.csp.ContentSecurityPolicyMiddleware",
-    "simple_history.middleware.HistoryRequestMiddleware",
 ]
 
 if DEBUG:

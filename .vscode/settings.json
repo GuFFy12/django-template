@@ -20,6 +20,10 @@
   },
   "python.testing.pytestEnabled": true,
   "python.analysis.diagnosticMode": "workspace",
+  "python.analysis.typeCheckingMode": "standard",
+  "python.analysis.diagnosticSeverityOverrides": {
+    "reportIncompatibleVariableOverride": "none"
+  },
   "dprint.path": ".venv/bin/dprint",
   "files.associations": {
     "*.html": "jinja-html"
