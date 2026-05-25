@@ -10,7 +10,7 @@ pre-commit:
             run: >
               uv run ruff check --fix --exit-zero {staged_files} &&
               uv run ruff format {staged_files} &&
-              uv run ruff check --fix --extend-ignore=PLR2004 {staged_files}
+              uv run ruff check --fix --extend-ignore=PLR2004,ARG,SLF {staged_files}
 
           - name: dprint
             exclude: \{\{_copier_conf\.answers_file\}\}\.jinja
@@ -31,3 +31,7 @@ pre-commit:
           - name: validate-templates
             glob: "*.html"
             run: uv run python manage.py validate_templates
+
+          - name: check-migrations
+            glob: "*/models.py"
+            run: uv run python manage.py makemigrations --check --dry-run

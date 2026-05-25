@@ -11,7 +11,6 @@ env = environ.FileAwareEnv(
     DJANGO_ALLOWED_HOSTS=(list, ["localhost", "127.0.0.1", "172.16.0.0/12"]),
     DATABASE_URL=(str, "postgres://django:password@localhost:5432/app"),
     CACHE_URL=(str, "redis://localhost:6379/0"),
-    RQ_URL=(str, "redis://localhost:6379/1"),
     EMAIL_URL=(str, "consolemail://"),
     DEFAULT_FROM_EMAIL=(str, "hello@localhost"),
 )
@@ -74,9 +73,13 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "django_rq",
-    "django_tasks_rq",
+    "django_tasks_db",
+    "crontask",
+    "private_storage",
     "django_extensions",
+    "simple_history",
+    "import_export",
+    "shared",
     "users",
 ]
 
@@ -89,6 +92,7 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "django.middleware.csp.ContentSecurityPolicyMiddleware",
+    "simple_history.middleware.HistoryRequestMiddleware",
 ]
 
 if DEBUG:
@@ -127,14 +131,7 @@ CACHES = {
     "default": env.cache("CACHE_URL"),
 }
 
-RQ_QUEUES = {
-    "default": {
-        "URL": env.str("RQ_URL"),
-        "ASYNC": not DEBUG,
-    },
-}
-
-TASKS = {"default": {"BACKEND": "django_tasks_rq.RQBackend", "QUEUES": ["default"]}}
+TASKS = {"default": {"BACKEND": "django_tasks_db.DatabaseBackend", "QUEUES": ["default"]}}
 
 EMAIL_CONFIG = env.email("EMAIL_URL")
 vars().update(EMAIL_CONFIG)
@@ -188,5 +185,6 @@ MEDIA_URL = "media/"
 
 MEDIA_ROOT = BASE_DIR / "media"
 
+PRIVATE_STORAGE_ROOT = BASE_DIR / "private-media"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"

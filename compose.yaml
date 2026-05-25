@@ -6,20 +6,52 @@ services:
         condition: service_healthy
       valkey:
         condition: service_healthy
-      valkey-queue:
-        condition: service_healthy
+    command: granian \
+      --interface asgi \
+      --host 0.0.0.0 \
+      --workers ${GRANIAN_WORKERS:-2} \
+      --respawn-failed-workers \
+      --static-path-route /static \
+      --static-path-mount /app/static \
+      --static-path-route /media \
+      --static-path-mount /app/media \
+      config.asgi:application
     environment:
       LOG_LEVEL: INFO
       DJANGO_SECRET_KEY: "${DJANGO_SECRET_KEY:-?DJANGO_SECRET_KEY environment variable is required}"
       DJANGO_ALLOWED_HOSTS: "localhost,127.0.0.1,172.16.0.0/12,${DJANGO_DOMAIN}"
       DATABASE_URL: "postgres://${POSTGRES_USER:-django}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-django}"
       CACHE_URL: redis://:${VALKEY_PASSWORD}@valkey:6379/0
-      RQ_URL: redis://:${VALKEY_QUEUE_PASSWORD}@valkey-queue:6379/1
       EMAIL_URL: "${EMAIL_URL}"
       DEFAULT_FROM_EMAIL: "${DEFAULT_FROM_EMAIL}"
-      GRANIAN_WORKERS: "${GRANIAN_WORKERS:-2}"
-      GRANIAN_RESPAWN_FAILED_WORKERS: true
     restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health/"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  app-tasks:
+    image: ${IMAGE_NAME}:${IMAGE_TAG}
+    depends_on:
+      app:
+        condition: service_healthy
+    entrypoint: ""
+    command: python manage.py steady_queue
+    environment:
+      LOG_LEVEL: INFO
+      DJANGO_SECRET_KEY: "${DJANGO_SECRET_KEY:-?DJANGO_SECRET_KEY environment variable is required}"
+      DJANGO_ALLOWED_HOSTS: "localhost,127.0.0.1,172.16.0.0/12,${DJANGO_DOMAIN}"
+      DATABASE_URL: "postgres://${POSTGRES_USER:-django}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-django}"
+      CACHE_URL: redis://:${VALKEY_PASSWORD}@valkey:6379/0
+      EMAIL_URL: "${EMAIL_URL}"
+      DEFAULT_FROM_EMAIL: "${DEFAULT_FROM_EMAIL}"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "test", "-f", "/tmp/steady_queue.pid"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   postgres:
     image: postgres:18.4-trixie@sha256:7aba8c66107ee218ddbaacb30eae46d774bf5e34ab77a917be819b4e227493c4
@@ -49,18 +81,5 @@ services:
       timeout: 5s
       retries: 5
 
-  valkey-queue:
-    image: valkey/valkey:9.1.0-trixie@sha256:4963247afc4cd33c7d3b2d2816b9f7f8eeebab148d29056c2ca4d7cbc966f2d9
-    volumes:
-      - valkey_queue_data:/data
-    command: valkey --appendonly yes --appendfsync everysec --requirepass ${VALKEY_QUEUE_PASSWORD}
-    restart: unless-stopped
-    healthcheck:
-      test: ["CMD", "valkey-cli", "ping"]
-      interval: 5s
-      timeout: 5s
-      retries: 5
-
 volumes:
   database:
-  valkey_queue_data:
