@@ -63,6 +63,9 @@ ignore = [
   "RUF002", # ambiguous-unicode-character-docstring
   "RUF003", # ambiguous-unicode-character-comment
   "ANN", # flake8-annotations
+  "PLC0415", # `import` should be at the top-level of a file
+  "ARG", # flake8-unused-arguments
+  "SLF001", # Private member accessed
 ]
 
 [tool.ruff.lint.pycodestyle]

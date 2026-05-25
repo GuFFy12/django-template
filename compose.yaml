@@ -1,3 +1,12 @@
+x-app-environment: &app_environment
+  LOG_LEVEL: INFO
+  DJANGO_SECRET_KEY: "${DJANGO_SECRET_KEY:-?DJANGO_SECRET_KEY environment variable is required}"
+  DJANGO_ALLOWED_HOSTS: "localhost,127.0.0.1,172.16.0.0/12,${DJANGO_DOMAIN}"
+  DATABASE_URL: "postgres://${POSTGRES_USER:-django}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-django}"
+  CACHE_URL: redis://:${VALKEY_PASSWORD}@valkey:6379/0
+  EMAIL_URL: "${EMAIL_URL}"
+  DEFAULT_FROM_EMAIL: "${DEFAULT_FROM_EMAIL}"
+
 services:
   app:
     image: ${IMAGE_NAME}:${IMAGE_TAG}
@@ -16,14 +25,7 @@ services:
       --static-path-route /media \
       --static-path-mount /app/media \
       config.asgi:application
-    environment:
-      LOG_LEVEL: INFO
-      DJANGO_SECRET_KEY: "${DJANGO_SECRET_KEY:-?DJANGO_SECRET_KEY environment variable is required}"
-      DJANGO_ALLOWED_HOSTS: "localhost,127.0.0.1,172.16.0.0/12,${DJANGO_DOMAIN}"
-      DATABASE_URL: "postgres://${POSTGRES_USER:-django}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-django}"
-      CACHE_URL: redis://:${VALKEY_PASSWORD}@valkey:6379/0
-      EMAIL_URL: "${EMAIL_URL}"
-      DEFAULT_FROM_EMAIL: "${DEFAULT_FROM_EMAIL}"
+    environment: *app_environment
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8000/health/"]
@@ -37,18 +39,26 @@ services:
       app:
         condition: service_healthy
     entrypoint: ""
-    command: python manage.py steady_queue
-    environment:
-      LOG_LEVEL: INFO
-      DJANGO_SECRET_KEY: "${DJANGO_SECRET_KEY:-?DJANGO_SECRET_KEY environment variable is required}"
-      DJANGO_ALLOWED_HOSTS: "localhost,127.0.0.1,172.16.0.0/12,${DJANGO_DOMAIN}"
-      DATABASE_URL: "postgres://${POSTGRES_USER:-django}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-django}"
-      CACHE_URL: redis://:${VALKEY_PASSWORD}@valkey:6379/0
-      EMAIL_URL: "${EMAIL_URL}"
-      DEFAULT_FROM_EMAIL: "${DEFAULT_FROM_EMAIL}"
+    command: python manage.py db_worker --interval 5
+    environment: *app_environment
     restart: unless-stopped
     healthcheck:
-      test: ["CMD", "test", "-f", "/tmp/steady_queue.pid"]
+      test: ["CMD", "pgrep", "-f", "manage.py db_worker"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  app-cron:
+    image: ${IMAGE_NAME}:${IMAGE_TAG}
+    depends_on:
+      app:
+        condition: service_healthy
+    entrypoint: ""
+    command: python manage.py crontask --no-heartbeat
+    environment: *app_environment
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "pgrep", "-f", "manage.py crontask"]
       interval: 10s
       timeout: 5s
       retries: 5
