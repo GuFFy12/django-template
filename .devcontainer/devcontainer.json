@@ -18,7 +18,8 @@
         "dprint.dprint",
         "streetsidesoftware.code-spell-checker",
         "streetsidesoftware.code-spell-checker-russian",
-        "samuelcolvin.jinjahtml"
+        "samuelcolvin.jinjahtml",
+        "emeraldwalk.RunOnSave"
       ]
     }
   }

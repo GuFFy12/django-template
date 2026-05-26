@@ -27,5 +27,14 @@
   },
   "files.associations": {
     "*.html": "jinja-html"
+  },
+  "emeraldwalk.runonsave": {
+    "commands": [
+      {
+        "match": "\\.html$",
+        "cmd": "uv run djangofmt ${file}",
+        "autoShowOutputPanel": "error"
+      }
+    ]
   }
 }
