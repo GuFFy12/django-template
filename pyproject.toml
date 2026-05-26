@@ -11,10 +11,8 @@ classifiers = [
 ]
 dependencies = [
   "django~=6.0.5",
-  "django-crontask>=1.2.0",
   "django-environ>=0.13.0",
   "django-extensions>=4.1",
-  "django-tasks-db>=0.12.0",
   "granian>=2.7.4",
   "psycopg[binary,pool]>=3.3.4",
   "redis>=7.4.0",

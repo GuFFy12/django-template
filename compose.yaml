@@ -33,36 +33,6 @@ services:
       timeout: 5s
       retries: 5
 
-  # app-tasks:
-  #   image: ${IMAGE_NAME}:${IMAGE_TAG}
-  #   depends_on:
-  #     app:
-  #       condition: service_healthy
-  #   entrypoint: ""
-  #   command: python manage.py db_worker --interval 5
-  #   environment: *app_environment
-  #   restart: unless-stopped
-  #   healthcheck:
-  #     test: ["CMD", "pgrep", "-f", "manage.py db_worker"]
-  #     interval: 10s
-  #     timeout: 5s
-  #     retries: 5
-
-  # app-cron:
-  #   image: ${IMAGE_NAME}:${IMAGE_TAG}
-  #   depends_on:
-  #     app:
-  #       condition: service_healthy
-  #   entrypoint: ""
-  #   command: python manage.py crontask --no-heartbeat
-  #   environment: *app_environment
-  #   restart: unless-stopped
-  #   healthcheck:
-  #     test: ["CMD", "pgrep", "-f", "manage.py crontask"]
-  #     interval: 10s
-  #     timeout: 5s
-  #     retries: 5
-
   postgres:
     image: postgres:18.4-trixie@sha256:7aba8c66107ee218ddbaacb30eae46d774bf5e34ab77a917be819b4e227493c4
     volumes:

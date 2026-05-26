@@ -126,8 +126,6 @@ CACHES = {
     "default": env.cache("CACHE_URL"),
 }
 
-TASKS = {"default": {"BACKEND": "django_tasks_db.DatabaseBackend", "QUEUES": ["default"]}}
-
 EMAIL_CONFIG = env.email("EMAIL_URL")
 vars().update(EMAIL_CONFIG)
 

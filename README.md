@@ -4,15 +4,12 @@
 
 ---
 
-## Django
+## Django рекомендации
 
-1. Compose и nginx предполагает что будет traefik как указанно в `compose.yaml`. Заголовки безопасности должны быть на уровне traefik, а специфичные настройки в nginx или в самом Django (прим. CSP, CORS). Если вы в облаке, раздаем все через s3.
-2. Vendor пакеты идут в `node_modules` и включаются в настройках django. Спокойно вырезайте это если не требуется.
-3. Изучите как работает nginx в `compose.yaml` и `nginx.conf`.
-4. Я не стал погружать template в дебри пакетов: django_auto_instrumentation, celery и его django пакеты, sentry-sdk, django-ninja, django-simple-history, django-captcha, django-import-export[all], django-protected-media... csp, cors, варианты хранения в s3, base model для автозаполнения пути хранения. Это все как нибудь сами.
-5. Django 6. были надежды на очереди и стандартный интерфейс но надо ждать. Рекомендую посмотреть: django task db, django cron tasks, dramatiq, apscheduler, huey, q2, procrastinate.
-   если не хочется дополнительный инстанс valkey: django task db + django cron tasks для schedule но тогда нельзя контролировать расписание. dramatiq + apscheduler для контроля расписания но тогда нужно держать инстанс брокера rabbit vs reddit. procrastinate для контроля расписания и без брокера, но admin только readonly. q2? huey? не смотрел.
-   Я уверен что будет все развиватся но пока я пошел простым путем и использовал django task db + django cron tasks.
+1. Есть возможность поставить S3 - используйте. Потом nginx. В базе раздает granian.
+2. django q2 как вариант очередей и плановых задач. Аналоги: celery, dramatiq + apscheduler, huey. Django 6 tasks framework пока сырой.
+3. django-ninja для API, django-simple-history для аудита, django-import-export для импорта/экспорта в формате XLSX, django-private-storage для защищенных медиафайлов, sentry-sdk для интеграции с Sentry, django-auto_instrumentation для OTEL, django-imagekit для картинок в нужном формате, django-compressor + scss для поддержки scss. Я использовал все эти пакеты в разных проектах, но в шаблоне не стал их добавлять, чтобы не навязывать.
+4. Вырублена вся типизация mypy ибо очень много ложных срабатываний. Pylance только для IDE ошибок на типы, и там тоже есть ложные срабатывания, но они не влияют на pre commit и CI. Вместо этого надежда на встроенные проверки django.
 
 ---
 
