@@ -19,7 +19,7 @@ pre-commit:
             glob: "*.html"
             run: uv run djangofmt {staged_files}
 
-    - name: analysers
+    - name: analyzers
       group:
         parallel: true
         jobs:
