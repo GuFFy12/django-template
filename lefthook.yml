@@ -24,7 +24,6 @@ pre-commit:
         parallel: true
         jobs:
           - name: validate-django
-            glob: "*.py"
             run: uv run python manage.py check
 
           - name: validate-templates
