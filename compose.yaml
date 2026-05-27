@@ -4,8 +4,9 @@ x-app-environment: &app_environment
   DJANGO_ALLOWED_HOSTS: "localhost,127.0.0.1,172.16.0.0/12,${DJANGO_DOMAIN}"
   DATABASE_URL: "postgres://${POSTGRES_USER:-django}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-django}"
   CACHE_URL: redis://:${VALKEY_PASSWORD}@valkey:6379/0
-  EMAIL_URL: "${EMAIL_URL}"
-  DEFAULT_FROM_EMAIL: "${DEFAULT_FROM_EMAIL}"
+  EMAIL_URL: "${EMAIL_URL:-consolemail://}"
+  DEFAULT_FROM_EMAIL: "${DEFAULT_FROM_EMAIL:-hello@localhost}"
+  GRANIAN_WORKERS: "${GRANIAN_WORKERS:-2}"
 
 services:
   app:
@@ -18,7 +19,6 @@ services:
     command: granian \
       --interface asgi \
       --host 0.0.0.0 \
-      --workers ${GRANIAN_WORKERS:-2} \
       --respawn-failed-workers \
       --static-path-route /static \
       --static-path-mount /app/static \
