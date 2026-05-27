@@ -9,6 +9,7 @@ env = environ.FileAwareEnv(
     DJANGO_SECRET_KEY=(str, "secret_key"),
     DJANGO_DEBUG=(bool, False),
     DJANGO_ALLOWED_HOSTS=(list, ["localhost", "127.0.0.1", "172.16.0.0/12"]),
+    DJANGO_CSRF_TRUSTED_ORIGINS=(list, []),
     DATABASE_URL=(str, "postgres://django:password@localhost:5432/app"),
     CACHE_URL=(str, "redis://localhost:6379/0"),
     EMAIL_URL=(str, "consolemail://"),
@@ -42,13 +43,15 @@ DEBUG = env.bool("DJANGO_DEBUG")
 
 ALLOWED_HOSTS = env.list("DJANGO_ALLOWED_HOSTS")
 
-CSRF_TRUSTED_ORIGINS = [f"https://{host}" for host in ALLOWED_HOSTS]
+CSRF_TRUSTED_ORIGINS = env.list("DJANGO_CSRF_TRUSTED_ORIGINS")
 
 CSRF_COOKIE_SECURE = not DEBUG
 
 SESSION_COOKIE_SECURE = not DEBUG
 
-X_FRAME_OPTIONS = "SAMEORIGIN"
+X_FRAME_OPTIONS = "DENY"
+
+SECURE_REFERRER_POLICY = "strict-origin-when-cross-origin"
 
 SECURE_CSP = {
     "default-src": [CSP.SELF],
