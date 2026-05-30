@@ -16,16 +16,20 @@ services:
         condition: service_healthy
       valkey:
         condition: service_healthy
-    command: >
-      sh -c "python manage.py migrate && exec granian \
-        --interface asgi \
-        --host 0.0.0.0 \
-        --respawn-failed-workers \
-        --static-path-route /static \
-        --static-path-mount ./staticfiles \
-        --static-path-route /media \
-        --static-path-mount ./media \
-        config.asgi:application"
+    command:
+      - sh
+      - -c
+      - |
+        python manage.py migrate
+        exec granian \
+          --interface asgi \
+          --host 0.0.0.0 \
+          --respawn-failed-workers \
+          --static-path-route /static \
+          --static-path-mount ./staticfiles \
+          --static-path-route /media \
+          --static-path-mount ./media \
+          config.asgi:application
     environment: *app_environment
     restart: unless-stopped
 
