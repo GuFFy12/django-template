@@ -8,7 +8,7 @@
       "args": ["runserver_plus", "--nopin"],
       "django": true,
       "autoStartBrowser": false,
-      "program": "manage.py"
+      "program": "${workspaceFolder}/manage.py"
     }
   ]
 }

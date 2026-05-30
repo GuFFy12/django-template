@@ -1,18 +1,36 @@
 {
   "version": "2.0.0",
+  "inputs": [
+    {
+      "id": "djangoCommand",
+      "type": "pickString",
+      "description": "Enter Django manage.py command",
+      "options": [
+        "runserver_plus --nopin",
+        "migrate",
+        "makemigrations",
+        "shell_plus",
+        "createsuperuser",
+        "flush"
+      ],
+      "default": "runserver_plus --nopin"
+    }
+  ],
   "tasks": [
     {
-      "label": "Run",
+      "label": "Django: manage.py",
       "type": "shell",
-      "command": "uv run python manage.py runserver_plus --nopin",
+      "command": "uv run python manage.py ${input:djangoCommand}",
       "problemMatcher": []
     },
     {
-      // Если обновили какие либо базовые настройки или сделали git pull.
-      "label": "Run post-create script",
+      "label": "Install lefthook",
       "type": "shell",
-      "command": ".devcontainer/post-create.sh",
-      "problemMatcher": []
+      "command": "uv run lefthook install",
+      "problemMatcher": [],
+      "runOptions": {
+        "runOn": "folderOpen"
+      }
     },
     {
       // Изменили настройки линтера или форматера? Обязательно запустите.
@@ -33,30 +51,6 @@
       "type": "shell",
       "command": "uv run copier update -a .copier-answers.django.yml",
       "presentation": { "focus": true },
-      "problemMatcher": []
-    },
-    {
-      "label": "Make Migrations",
-      "type": "shell",
-      "command": "uv run python manage.py makemigrations",
-      "problemMatcher": []
-    },
-    {
-      "label": "Migrate",
-      "type": "shell",
-      "command": "uv run python manage.py migrate",
-      "problemMatcher": []
-    },
-    {
-      "label": "Django Shell",
-      "type": "shell",
-      "command": "uv run python manage.py shell_plus",
-      "problemMatcher": []
-    },
-    {
-      "label": "Flush Database",
-      "type": "shell",
-      "command": "uv run python manage.py flush",
       "problemMatcher": []
     }
   ]

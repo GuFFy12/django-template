@@ -13,19 +13,18 @@
   "python.terminal.activateEnvironment": false,
   "python.analysis.autoImportCompletions": true,
   "python.analysis.typeCheckingMode": "standard",
+  "python.envFile": "${workspaceFolder}/.env.dev",
   "git.autofetch": true,
   "git.enableSmartCommit": true,
   "git.confirmSync": false,
   "cSpell.language": "en,ru",
+  "cSpell.dictionaries": ["python"],
   "editor.unicodeHighlight.allowedLocales": {
     "ru": true
   },
   "dprint.path": ".venv/bin/dprint",
   "python.analysis.diagnosticSeverityOverrides": {
     "reportIncompatibleVariableOverride": "none"
-  },
-  "files.associations": {
-    "*.html": "jinja-html"
   },
   "emeraldwalk.runonsave": {
     "commands": [

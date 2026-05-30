@@ -312,5 +312,4 @@ __marimo__/
 
 
 # Custom
-!.devcontainer/.env
 !/media/.gitkeep
