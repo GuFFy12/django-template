@@ -32,7 +32,7 @@
       },
       {
         "match": ".*",
-        "cmd": "uv run dprint fmt ${file}",
+        "cmd": "uv run dprint fmt --allow-no-files ${file}",
         "autoShowOutputPanel": "error"
       }
     ]
