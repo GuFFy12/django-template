@@ -5,17 +5,16 @@ from django.utils.csp import CSP
 
 # Все чувствительные настройки + которые могут меняться со временем. Обновите .env + compose соответственно.
 env = environ.FileAwareEnv(
-    LOG_LEVEL=(str, "INFO"),
-    VERSION=(str, "0.1.0"),
+    DJANGO_LOG_LEVEL=(str, "INFO"),
+    DJANGO_VERSION=(str, "0.1.0"),
     DJANGO_SECRET_KEY=(str, "secret_key"),
     DJANGO_DEBUG=(bool, False),
     DJANGO_ALLOWED_HOSTS=(list, ["localhost", "127.0.0.1", "172.16.0.0/12"]),
     DJANGO_CSRF_TRUSTED_ORIGINS=(list, []),
-    DATABASE_URL=(str, "postgres://django:password@localhost:5432/app"),
-    CACHE_URL=(str, "redis://localhost:6379/0"),
-    EMAIL_URL=(str, "consolemail://"),
-    DEFAULT_FROM_EMAIL=(str, "hello@localhost"),
+    DJANGO_DATABASE_URL=(str, "postgres://django:password@localhost:5432/app"),
+    DJANGO_CACHE_URL=(str, "redis://localhost:6379/0"),
 )
+env.prefix = "DJANGO_"
 
 
 LOGGING = {
@@ -38,13 +37,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 VERSION = env.str("VERSION")
 
-SECRET_KEY = env.str("DJANGO_SECRET_KEY")
+SECRET_KEY = env.str("SECRET_KEY")
 
-DEBUG = env.bool("DJANGO_DEBUG")
+DEBUG = env.bool("DEBUG")
 
-ALLOWED_HOSTS = env.list("DJANGO_ALLOWED_HOSTS")
+ALLOWED_HOSTS = env.list("ALLOWED_HOSTS")
 
-CSRF_TRUSTED_ORIGINS = env.list("DJANGO_CSRF_TRUSTED_ORIGINS")
+CSRF_TRUSTED_ORIGINS = env.list("CSRF_TRUSTED_ORIGINS")
 
 CSRF_COOKIE_SECURE = not DEBUG
 
@@ -131,11 +130,6 @@ DATABASES = {
 CACHES = {
     "default": env.cache("CACHE_URL"),
 }
-
-EMAIL_CONFIG = env.email("EMAIL_URL")
-vars().update(EMAIL_CONFIG)
-
-DEFAULT_FROM_EMAIL = env.str("DEFAULT_FROM_EMAIL")
 
 STORAGES = {
     "default": {

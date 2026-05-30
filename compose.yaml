@@ -1,11 +1,10 @@
 x-app-environment: &app_environment
-  LOG_LEVEL: INFO
+  DJANGO_LOG_LEVEL: ${DJANGO_LOG_LEVEL:-INFO}
   DJANGO_SECRET_KEY: ${DJANGO_SECRET_KEY:-?DJANGO_SECRET_KEY environment variable is required}
-  DJANGO_ALLOWED_HOSTS: localhost,127.0.0.1,172.16.0.0/12,${DJANGO_DOMAIN}
-  DATABASE_URL: postgres://${POSTGRES_USER:-django}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-django}
-  CACHE_URL: redis://:${VALKEY_PASSWORD}@valkey:6379/0
-  EMAIL_URL: ${EMAIL_URL:-consolemail://}
-  DEFAULT_FROM_EMAIL: ${DEFAULT_FROM_EMAIL:-hello@localhost}
+  DJANGO_ALLOWED_HOSTS: localhost,127.0.0.1,172.16.0.0/12,${DOMAINS}
+  DJANGO_CSRF_TRUSTED_ORIGINS: ${CSRF_TRUSTED_ORIGINS:-${DOMAINS}}
+  DJANGO_DATABASE_URL: postgres://${POSTGRES_USER:-django}:${POSTGRES_PASSWORD:-?POSTGRES_PASSWORD environment variable is required}@postgres:5432/${POSTGRES_DB:-django}
+  DJANGO_CACHE_URL: redis://:${VALKEY_PASSWORD:-?VALKEY_PASSWORD environment variable is required}@valkey:6379/0
   GRANIAN_WORKERS: ${GRANIAN_WORKERS:-2}
 
 services:
@@ -40,7 +39,7 @@ services:
     environment:
       POSTGRES_DB: ${POSTGRES_DB:-django}
       POSTGRES_USER: ${POSTGRES_USER:-django}
-      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
+      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD:-?POSTGRES_PASSWORD environment variable is required}"
     restart: unless-stopped
     healthcheck:
       test: [
@@ -54,7 +53,7 @@ services:
   valkey:
     image: valkey/valkey:9.1.0-trixie@sha256:4963247afc4cd33c7d3b2d2816b9f7f8eeebab148d29056c2ca4d7cbc966f2d9
     restart: unless-stopped
-    command: valkey-server --requirepass ${VALKEY_PASSWORD}
+    command: valkey-server --requirepass ${VALKEY_PASSWORD:-?VALKEY_PASSWORD environment variable is required}
     healthcheck:
       test: ["CMD", "valkey-cli", "ping"]
       interval: 5s
