@@ -36,5 +36,8 @@
         "autoShowOutputPanel": "error"
       }
     ]
+  },
+  "files.associations": {
+    "*.html": "django-html"
   }
 }
