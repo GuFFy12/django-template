@@ -12,7 +12,7 @@
   "python.testing.pytestEnabled": true,
   "python.terminal.activateEnvironment": false,
   "python.analysis.autoImportCompletions": true,
-  "python.analysis.typeCheckingMode": "strict",
+  "python.analysis.typeCheckingMode": "standard",
   "git.autofetch": true,
   "git.enableSmartCommit": true,
   "git.confirmSync": false,

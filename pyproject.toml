@@ -1,4 +1,5 @@
 [project]
+# ! Поменяйте имя проекта.
 name = "django-template"
 version = "0.1.0"
 description = "Django Template"
@@ -42,6 +43,7 @@ exclude = [".venv", "*/migrations/*"]
 force-exclude = true
 
 [tool.ruff.lint]
+# ! Все таки я рекомендую выставить необходимые правила вместо всех (иначе придется пополнять ignore или следовать возможно тупым ограничениям).
 select = [
   "ALL",
 ]

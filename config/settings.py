@@ -3,6 +3,7 @@ from pathlib import Path
 import environ
 from django.utils.csp import CSP
 
+# Все чувствительные настройки + которые могут меняться со временем. Обновите .env + compose соответственно.
 env = environ.FileAwareEnv(
     LOG_LEVEL=(str, "INFO"),
     VERSION=(str, "0.1.0"),
@@ -49,10 +50,13 @@ CSRF_COOKIE_SECURE = not DEBUG
 
 SESSION_COOKIE_SECURE = not DEBUG
 
+# Эти настройки могут поменяться!
+
 X_FRAME_OPTIONS = "DENY"
 
 SECURE_REFERRER_POLICY = "strict-origin-when-cross-origin"
 
+# Или SECURE_CSP_REPORT_ONLY, https://docs.djangoproject.com/en/6.0/ref/csp/.
 SECURE_CSP = {
     "default-src": [CSP.SELF],
     "script-src": [CSP.SELF, CSP.NONCE],
@@ -97,6 +101,7 @@ if DEBUG:
 
 ROOT_URLCONF = "config.urls"
 
+# Рекомендуется держать свою модель user'ов, ибо потом миграцию будет сделать нереально.
 AUTH_USER_MODEL = "users.User"
 
 TEMPLATES = [
@@ -157,6 +162,8 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
+# ! Измени меня!
+
 LANGUAGE_CODE = "en-us"
 
 TIME_ZONE = "UTC"
@@ -165,6 +172,8 @@ USE_I18N = True
 
 USE_TZ = True
 
+
+# Пожалуйста используйте s3 как будет возможность.
 
 STATIC_URL = "static/"
 
