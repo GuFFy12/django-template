@@ -1,6 +1,4 @@
 {
-  "editor.defaultFormatter": "dprint.dprint",
-  "editor.formatOnSave": true,
   "files.autoSave": "onFocusChange",
   "files.eol": "\n",
   "[python]": {
@@ -18,19 +16,22 @@
   "git.enableSmartCommit": true,
   "git.confirmSync": false,
   "cSpell.language": "en,ru",
-  "cSpell.dictionaries": ["python"],
+  "cSpell.dictionaries": [
+    "python"
+  ],
   "editor.unicodeHighlight.allowedLocales": {
     "ru": true
-  },
-  "dprint.path": ".venv/bin/dprint",
-  "python.analysis.diagnosticSeverityOverrides": {
-    "reportIncompatibleVariableOverride": "none"
   },
   "emeraldwalk.runonsave": {
     "commands": [
       {
         "match": "\\.html$",
         "cmd": "uv run djangofmt ${file}",
+        "autoShowOutputPanel": "error"
+      },
+      {
+        "match": ".*",
+        "cmd": "uv run dprint fmt ${file}",
         "autoShowOutputPanel": "error"
       }
     ]
