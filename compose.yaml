@@ -22,9 +22,9 @@ services:
         --host 0.0.0.0 \
         --respawn-failed-workers \
         --static-path-route /static \
-        --static-path-mount /app/static \
+        --static-path-mount ./staticfiles \
         --static-path-route /media \
-        --static-path-mount /app/media \
+        --static-path-mount ./media \
         config.asgi:application"
     environment: *app_environment
     restart: unless-stopped
