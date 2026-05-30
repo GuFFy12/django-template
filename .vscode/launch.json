@@ -5,9 +5,12 @@
       "name": "Python Debugger: Django",
       "type": "debugpy",
       "request": "launch",
-      "args": ["runserver_plus", "--nopin"],
+      "args": [
+        "runserver_plus",
+        "--nopin"
+      ],
       "django": true,
-      "autoStartBrowser": false,
+      "autoStartBrowser": true,
       "program": "${workspaceFolder}/manage.py"
     }
   ]
