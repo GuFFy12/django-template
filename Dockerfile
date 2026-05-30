@@ -23,4 +23,3 @@ ENV PYTHONDONTWRITEBYTECODE=1
 ENV PATH="/app/.venv/bin:$PATH"
 COPY --from=builder --chown=app:app /app /app
 USER app
-ENTRYPOINT ["entrypoint.sh"]
