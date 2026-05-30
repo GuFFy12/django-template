@@ -1,9 +1,9 @@
 x-app-environment: &app_environment
-  DJANGO_LOG_LEVEL: ${DJANGO_LOG_LEVEL:-INFO}
+  DJANGO_LOG_LEVEL: INFO
   DJANGO_SECRET_KEY: ${DJANGO_SECRET_KEY:-?DJANGO_SECRET_KEY environment variable is required}
   DJANGO_ALLOWED_HOSTS: localhost,127.0.0.1,172.16.0.0/12,${DOMAINS:-app.django-template.orb.local}
   DJANGO_CSRF_TRUSTED_ORIGINS: ${DJANGO_CSRF_TRUSTED_ORIGINS:-https://app.django-template.orb.local}
-  DJANGO_DATABASE_URL: postgres://${POSTGRES_USER:-django}:${POSTGRES_PASSWORD:-?POSTGRES_PASSWORD environment variable is required}@postgres:5432/${POSTGRES_DB:-django}
+  DJANGO_DATABASE_URL: postgres://django:${POSTGRES_PASSWORD:-?POSTGRES_PASSWORD environment variable is required}@postgres:5432/app
   DJANGO_CACHE_URL: redis://:${VALKEY_PASSWORD:-?VALKEY_PASSWORD environment variable is required}@valkey:6379/0
   GRANIAN_WORKERS: ${GRANIAN_WORKERS:-2}
 
@@ -37,14 +37,14 @@ services:
     volumes:
       - database:/var/lib/postgresql
     environment:
-      POSTGRES_USER: ${POSTGRES_USER:-django}
+      POSTGRES_USER: django
       POSTGRES_PASSWORD: "${POSTGRES_PASSWORD:-?POSTGRES_PASSWORD environment variable is required}"
-      POSTGRES_DB: ${POSTGRES_DB:-django}
+      POSTGRES_DB: app
     restart: unless-stopped
     healthcheck:
       test: [
         "CMD-SHELL",
-        "pg_isready -U ${POSTGRES_USER:-django} -d ${POSTGRES_DB:-django}",
+        "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}",
       ]
       interval: 5s
       timeout: 5s
