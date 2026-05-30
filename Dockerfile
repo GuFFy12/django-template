@@ -1,6 +1,6 @@
 ARG VERSION="unknown"
 
-FROM python:3.13.12-slim-trixie@sha256:f1927c75e81efd1e091dbd64b6c0ecaa5630b38635a3d1c04034ac636e1f94c8 AS builder
+FROM python:3.14.5-slim-trixie@sha256:c845af9399020c7e562969a13689e929074a10fd057acd1b1fad06a2fb068e97 AS builder
 COPY --from=astral/uv:0.11.14@sha256:1025398289b62de8269e70c45b91ffa37c373f38118d7da036fb8bb8efc85d97 /uv /uvx /usr/local/bin
 WORKDIR /app
 ENV UV_COMPILE_BYTECODE=1
@@ -13,7 +13,7 @@ RUN --mount=type=cache,target=/root/.cache/uv \
 COPY . .
 RUN uv run python manage.py collectstatic --noinput
 
-FROM python:3.13.12-slim-trixie@sha256:f1927c75e81efd1e091dbd64b6c0ecaa5630b38635a3d1c04034ac636e1f94c8
+FROM python:3.14.5-slim-trixie@sha256:c845af9399020c7e562969a13689e929074a10fd057acd1b1fad06a2fb068e97
 WORKDIR /app
 RUN adduser --system --group app
 ARG VERSION
