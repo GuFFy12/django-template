@@ -40,7 +40,7 @@ copier copy https://github.com/GuFFy12/django-template.git <project-name>
 
 0. Для запуска проекта нужно установить docker и поднять pg и valkey: command palette -> run task: Start development environment; Create database.
 
-1. .vscode имеет множество настроек: run tasks в command pallete (ctrl shift p), debug (f5).
+1. .vscode имеет множество настроек: run tasks в command palette (ctrl shift p), debug (f5).
 
 2. lefthook можете расценивать как асинхронный pre-commit. Там много проверок, но можете смело отключать.
 
