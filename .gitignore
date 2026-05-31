@@ -313,3 +313,4 @@ __marimo__/
 
 # Custom
 !/media/.gitkeep
+!/dev/.env

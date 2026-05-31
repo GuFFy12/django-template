@@ -12,7 +12,7 @@ env = environ.FileAwareEnv(
     DJANGO_ALLOWED_HOSTS=(list, ["localhost", "127.0.0.1", "172.16.0.0/12"]),
     DJANGO_CSRF_TRUSTED_ORIGINS=(list, []),
     DJANGO_DATABASE_URL=(str, "postgres://django:password@localhost:5432/app"),
-    DJANGO_CACHE_URL=(str, "redis://localhost:6379/0"),
+    DJANGO_CACHE_URL=(str, "redis://:password@localhost:6379/0"),
 )
 env.prefix = "DJANGO_"
 
@@ -122,28 +122,14 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "config.wsgi.application"
 
-if DEBUG:
-    DATABASES = {
-        "default": {
-            "ENGINE": "django.db.backends.sqlite3",
-            "NAME": BASE_DIR / "db.sqlite3",
-        }
-    }
 
-    CACHES = {
-        "default": {
-            "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
-            "LOCATION": "unique-snowflake",
-        }
-    }
-else:
-    DATABASES = {
-        "default": env.db("DATABASE_URL"),
-    }
+DATABASES = {
+    "default": env.db("DATABASE_URL"),
+}
 
-    CACHES = {
-        "default": env.cache("CACHE_URL"),
-    }
+CACHES = {
+    "default": env.cache("CACHE_URL"),
+}
 
 STORAGES = {
     "default": {

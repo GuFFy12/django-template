@@ -18,6 +18,18 @@
   ],
   "tasks": [
     {
+      "label": "Start development environment",
+      "type": "shell",
+      "command": "docker compose -f ./dev/compose.yaml up -d",
+      "problemMatcher": []
+    },
+    {
+      "label": "Create database",
+      "type": "shell",
+      "command": "docker exec -it dev-postgres-1 createdb -U django django_template",
+      "problemMatcher": []
+    },
+    {
       "label": "Django: manage.py",
       "type": "shell",
       "command": "uv run python manage.py ${input:djangoCommand}",
@@ -33,7 +45,6 @@
       }
     },
     {
-      // Изменили настройки линтера или форматера? Обязательно запустите.
       "label": "Run pre-commit for all files",
       "type": "shell",
       "command": "uv run lefthook run pre-commit --all-files",
@@ -43,14 +54,18 @@
       "label": "Update from template",
       "type": "shell",
       "command": "uv run copier update",
-      "presentation": { "focus": true },
+      "presentation": {
+        "focus": true
+      },
       "problemMatcher": []
     },
     {
       "label": "Update from template: Django",
       "type": "shell",
       "command": "uv run copier update -a .copier-answers.django.yml",
-      "presentation": { "focus": true },
+      "presentation": {
+        "focus": true
+      },
       "problemMatcher": []
     }
   ]
