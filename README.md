@@ -30,11 +30,15 @@ copier copy https://github.com/GuFFy12/django-template.git <project-name>
 
 3. Установите uv: https://docs.astral.sh/uv/getting-started/installation/#pypi
 
-4. Начинайте разработку. Можете менять уже существующие настройки, но я постарался сделать их максимально стандартными и рабочими для всех.
+4. Через поиск замените все упоминания django-template (и возможно django_template) на имя вашего проекта.
+
+5. Начинайте разработку. Можете менять уже существующие настройки, но я постарался сделать их максимально стандартными и рабочими для всех.
 
 ## Базовый функционал разработки
 
 Рекомендую просто открыть файлы и почитать комменты.
+
+0. Для запуска проекта нужно установить docker и поднять pg и valkey: command palette -> run task: Start development environment; Create database.
 
 1. .vscode имеет множество настроек: run tasks в command pallete (ctrl shift p), debug (f5).
 
