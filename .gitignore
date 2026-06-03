@@ -1,7 +1,6 @@
 # Custom
 /staticfiles/
 /media/*
-/static/vendor/
 
 
 # Linux
@@ -312,5 +311,5 @@ __marimo__/
 
 
 # Custom
+!.devcontainer/.env
 !/media/.gitkeep
-!/dev/.env

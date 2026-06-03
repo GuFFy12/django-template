@@ -1,0 +1,29 @@
+services:
+  workspace:
+    build: .
+    command: sleep infinity
+    env_file: .env
+    volumes:
+      - ..:/workspace:cached
+      - home:/home/vscode
+      - venv:/workspace/.venv
+
+# ! Точно так же как для обычного docker compose. НО! Для других контейнеров ОБЯЗАТЕЛЬНО пропишите `network_mode: service:workspace`.
+
+  postgres:
+    image: postgres:18.4-trixie@sha256:7aba8c66107ee218ddbaacb30eae46d774bf5e34ab77a917be819b4e227493c4
+    restart: unless-stopped
+    network_mode: service:workspace
+    env_file: .env
+    volumes:
+      - postgres_data:/var/lib/postgresql
+
+  valkey:
+    image: valkey/valkey:9.1.0-trixie@sha256:4963247afc4cd33c7d3b2d2816b9f7f8eeebab148d29056c2ca4d7cbc966f2d9
+    restart: unless-stopped
+    network_mode: service:workspace
+
+volumes:
+  home:
+  venv:
+  postgres_data:
