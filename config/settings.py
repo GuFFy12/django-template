@@ -13,6 +13,8 @@ env = environ.FileAwareEnv(
     DJANGO_CSRF_TRUSTED_ORIGINS=(list, []),
     DJANGO_DATABASE_URL=(str, "postgres://django:password@localhost:5432/app"),
     DJANGO_CACHE_URL=(str, "redis://:password@localhost:6379/0"),
+    DJANGO_EMAIL_URL=(str, "consolemail://"),
+    DJANGO_DEFAULT_FROM_EMAIL=(str, "hello@localhost"),
 )
 env.prefix = "DJANGO_"
 
@@ -154,6 +156,9 @@ AUTH_PASSWORD_VALIDATORS = [
         "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
     },
 ]
+
+EMAIL_CONFIG = env.email("EMAIL_URL")
+vars().update(EMAIL_CONFIG)
 
 
 # ! Измени меня!
