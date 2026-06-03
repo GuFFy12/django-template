@@ -1,6 +1,6 @@
 # Django Template
 
-Keywords: django, python, uv, vscode, ruff, dprint, docker, github, github ci, lefthook (precommit), pytest, renovate.
+Keywords: django, python, devcontainer, uv, vscode, ruff, dprint, docker, github, github ci, lefthook (precommit), pytest, renovate.
 
 Шаблон предназначен для django проектов в IDE vscode.
 
@@ -28,11 +28,25 @@ Keywords: django, python, uv, vscode, ruff, dprint, docker, github, github ci, l
 copier copy https://github.com/GuFFy12/django-template.git <project-name>
 ```
 
-3. Установите uv: https://docs.astral.sh/uv/getting-started/installation/#pypi
+3. Через поиск замените все упоминания django-template (и возможно django_template) на имя вашего проекта.
 
-4. Через поиск замените все упоминания django-template (и возможно django_template) на имя вашего проекта.
+4. Откройте проект в vscode и в терминале инициализируйте git:
 
-5. Начинайте разработку. Можете менять уже существующие настройки, но я постарался сделать их максимально стандартными и рабочими для всех.
+```bash
+git init
+git checkout -b main
+git add .
+git commit -m "Initial commit"
+# Тут команды для push в remote, допустим в github
+```
+
+5. Установите docker: https://www.docker.com/products/docker-desktop/. Установите рекомендуемое расширение: devcontainers.
+
+6. Откройте проект в devcontainer: command palette (ctrl shift p) -> reopen in devcontainer.
+
+7. Начинайте разработку. Можете менять уже существующие настройки, но я постарался сделать их максимально стандартными и рабочими для всех.
+
+Если вы изменили настройки devcontainer не забудьте запустить rebuild devcontainer.
 
 ## Базовый функционал разработки
 
