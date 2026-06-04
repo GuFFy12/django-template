@@ -40,14 +40,11 @@ services:
       - database:/var/lib/postgresql
     environment:
       POSTGRES_USER: django
-      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD:-?POSTGRES_PASSWORD environment variable is required}"
+      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
       POSTGRES_DB: app
     restart: unless-stopped
     healthcheck:
-      test: [
-        "CMD-SHELL",
-        "pg_isready -U django -d app",
-      ]
+      test: ["CMD-SHELL", "pg_isready -U django -d app"]
       interval: 5s
       timeout: 5s
       retries: 5
@@ -55,9 +52,9 @@ services:
   valkey:
     image: valkey/valkey:9.1.0-trixie@sha256:4963247afc4cd33c7d3b2d2816b9f7f8eeebab148d29056c2ca4d7cbc966f2d9
     restart: unless-stopped
-    command: valkey-server --requirepass ${VALKEY_PASSWORD:-?VALKEY_PASSWORD environment variable is required}
+    command: valkey-server --requirepass ${VALKEY_PASSWORD}
     healthcheck:
-      test: ["CMD", "valkey-cli", "ping"]
+      test: ["CMD-SHELL", "valkey-cli ping"]
       interval: 5s
       timeout: 5s
       retries: 5
