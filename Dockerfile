@@ -14,6 +14,8 @@ RUN --mount=type=cache,target=/root/.cache/uv \
 COPY . .
 RUN uv run python manage.py collectstatic --noinput
 
+# Проект иммутабельный, вы не можете никуда писать (кроме media).
+
 FROM python:3.13.12-slim-trixie@sha256:f1927c75e81efd1e091dbd64b6c0ecaa5630b38635a3d1c04034ac636e1f94c8
 WORKDIR /app
 RUN adduser --system --group app
@@ -23,5 +25,8 @@ ENV PYTHONUNBUFFERED=1
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PATH="/opt/venv/bin:$PATH"
 COPY --from=builder /opt/venv /opt/venv
-COPY --from=builder --chown=app:app /app /app
+# --chown=app:app если вам НУЖНО писать.
+COPY --from=builder /app /app
+# При s3 убрать.
+RUN chown -R app:app /app/media
 USER app
