@@ -52,8 +52,6 @@ git commit -m "Initial commit"
 
 Рекомендую просто открыть файлы и почитать комменты.
 
-0. Для запуска проекта нужно установить docker и поднять pg и valkey: command palette -> run task: Start development environment; Create database.
-
 1. .vscode имеет множество настроек: run tasks в command palette (ctrl shift p), debug (f5).
 
 2. lefthook можете расценивать как асинхронный pre-commit. Там много проверок, но можете смело отключать.
@@ -64,7 +62,11 @@ git commit -m "Initial commit"
 
 5. Изменили настройки линтера или форматера? Обязательно запустите: run task -> Run pre-commit for all files.
 
-6. Для dprint есть и другие плагины: поддержка js, ts, html. Обновите его если это необходимо.
+6. Изменили настройки devcontainer? Обязательно запустите: rebuild devcontainer.
+
+7. Если на новой ветке обновились зависимости запустите: run task -> Run post-create script.
+
+8. Для dprint есть и другие плагины: поддержка js, ts, html. Обновите его если это необходимо.
 
 ## CI
 
