@@ -11,7 +11,7 @@ services:
   # ! Точно так же как для обычного docker compose. НО! Для других контейнеров ОБЯЗАТЕЛЬНО пропишите `network_mode: service:workspace`.
 
   postgres:
-    image: postgres:18.4-trixie@sha256:7aba8c66107ee218ddbaacb30eae46d774bf5e34ab77a917be819b4e227493c4
+    image: postgres:18.4-trixie@sha256:29ee7bb30d804447dc9a91fd0d74322ae1dc3a4072cc6346f70a5ed6e783b565
     restart: unless-stopped
     network_mode: service:workspace
     env_file: .env
