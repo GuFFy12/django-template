@@ -33,3 +33,17 @@ pre-commit:
           - name: check-migrations
             glob: "*/models.py"
             run: uv run python manage.py makemigrations --check --dry-run
+
+post-checkout:
+  jobs:
+    - name: devcontainer-post-create
+      run: |
+        set -- {0}
+        if [ "$3" = "1" ]; then
+          .devcontainer/post-create.sh
+        fi
+
+post-merge:
+  jobs:
+    - name: devcontainer-post-create
+      run: .devcontainer/post-create.sh
