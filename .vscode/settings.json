@@ -25,11 +25,6 @@
   "emeraldwalk.runonsave": {
     "commands": [
       {
-        "match": "\\.html$",
-        "cmd": "uv run djangofmt ${file}",
-        "autoShowOutputPanel": "error"
-      },
-      {
         "match": ".*",
         "cmd": "uv run dprint fmt --allow-no-files ${file}",
         "autoShowOutputPanel": "error"
