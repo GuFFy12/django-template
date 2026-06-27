@@ -35,7 +35,7 @@ services:
     restart: unless-stopped
 
   postgres:
-    image: postgres:18.4-trixie@sha256:7aba8c66107ee218ddbaacb30eae46d774bf5e34ab77a917be819b4e227493c4
+    image: postgres:18.4-trixie@sha256:4aabea78cf39b90e834caf3af7d602a18565f6fe2508705c8d01aa63245c2e20
     volumes:
       - database:/var/lib/postgresql
     environment:
