@@ -1,6 +1,6 @@
 ARG VERSION="unknown"
 
-FROM python:3.13.12-slim-trixie@sha256:f1927c75e81efd1e091dbd64b6c0ecaa5630b38635a3d1c04034ac636e1f94c8 AS builder
+FROM python:3.14.6-slim-trixie@sha256:b877e50bd90de10af8d82c57a022fc2e0dc731c5320d762a27986facfc3355c1 AS builder
 COPY --from=astral/uv:0.11.14@sha256:1025398289b62de8269e70c45b91ffa37c373f38118d7da036fb8bb8efc85d97 /uv /uvx /usr/local/bin
 WORKDIR /app
 ENV UV_COMPILE_BYTECODE=1
@@ -16,7 +16,7 @@ RUN uv run python manage.py collectstatic --noinput
 
 # Проект иммутабельный, вы не можете никуда писать (кроме media).
 
-FROM python:3.13.12-slim-trixie@sha256:f1927c75e81efd1e091dbd64b6c0ecaa5630b38635a3d1c04034ac636e1f94c8
+FROM python:3.14.6-slim-trixie@sha256:b877e50bd90de10af8d82c57a022fc2e0dc731c5320d762a27986facfc3355c1
 WORKDIR /app
 RUN adduser --system --group app
 ARG VERSION
